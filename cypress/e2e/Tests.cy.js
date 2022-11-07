@@ -1,16 +1,44 @@
 /// <reference types="cypress" />
 
-const { format } = require("path");
-
-
 describe('Personalizar', () => {
     before(() => {
-        cy.visit('http://192.168.1.131:9090/#/oferta/3000129137/1/2/1')
+        // cy.visit('http://192.168.1.131:9090/#/oferta/3000129137/1/2/1')
+        cy.visit('http://192.168.1.131:9090/#/oferta/3000130216/1/0/1')
         cy.wait(10000)
+
     })
 
+    it('Vidros', () => {
+        let naoquero = cy.get('#cobertura-vidro')
+        naoquero.uncheck();
+        // @ Padronizou
+        // const vidroNaoQueroContratar = cy.get('.checkbox-contratacao')
 
-    it('Test Acessorios', () => {
+        vidroNaoQueroContratar.find('fp-checkbox')
+            .shadow()
+            .find('div')
+            .find('input').as('Input que tenha ID')
+            .invoke('attr', 'id')
+            .as('idValue')
+            .get('@idValue').then((idValue) => {
+                naoquero = idValue
+                cy.wait(1000)
+                naoquero.uncheck();
+            })
+
+
+
+    });
+
+    it.skip('Test Acessorios', () => {
+        let PremioTotal = 0;
+        let novoPremioTotal = 0;
+        let idFull = '';
+        let nomeId = '';
+        let numId = 0;
+        let checkboxFinal = '';
+        let numId2 = 0;
+
 
         cy.log('Acessórios - Index 1 - ')
         const btnAdicionarAcessorio = cy.get('#icon-btnIconeAddAcessorio');
@@ -23,64 +51,118 @@ describe('Personalizar', () => {
 
 
         const btnAcessorios = cy.get('.card_fields_tipoCobertura')
-        let idFull = '';
-        let nomeId = '';
-        let numId = 0;
-        let checkboxFinal = 0;
+
 
         btnAcessorios
             .find('div.radiobutton')
             .find('fp-radiobutton')
             .find('div')
-            .find('input').as('BuscandoID')
+            .find('input').as('Input que tenha ID')
             .first()
             .invoke('attr', 'id')
             .as('idValue')
 
+
         cy.get('@idValue').then((idValue) => {
             idFull = idValue
+            idFull = idFull.split('-');
+            nomeId = idFull[0];
+            numId = (idFull[1]);
+            checkboxFinal = '#' + nomeId + '-' + numId;
+            cy.wait(2000)
+            cy.get(checkboxFinal)
+                .click()
+
+
+            cy.log('Acessórios - > Ar Condicionado R$1,00')
+
+            // @ Minimo
+            cy.get('#btn-lbl-campoTipoAcessorio0').click({ force: true })
+            cy.get('#btn-item-campoTipoAcessorio0-1').click({ force: true })
+
+            cy.get('#campoLimite0')
+                .click()
+                .clear()
+                .type('1,00')
+                .wait(3000);
+
+
+            // @ COmparando premioTotal
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal;
+                novoPremioTotal = $premio.text().trim();
+                expect(novoPremioTotal).not.to.eq(PremioTotal);
+            })
+
+            cy.log('Acessórios - > Ar Condicionado R$10.347,30')
+            // @MAXIMO
+            cy.get('#campoLimite0')
+                .click()
+                .clear()
+                .type('10.347,30')
+                .wait(3000)
+
+            // @ COmparando premioTotal
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal;
+                novoPremioTotal = $premio.text().trim();
+                expect(novoPremioTotal).not.to.eq(PremioTotal);
+            })
+
+
+
+            //@Segundo
+            btnAdicionarAcessorio
+                .should('to.be.visible')
+                .click()
+                .wait(2000)
+
+            numId2 = parseInt(numId) + 3;
+            checkboxFinal = '#' + nomeId + '-' + numId2;
+
+            cy.log('Referência')
+
+            cy.log('Acessórios - > Ar Condicionado R$1,00')
+
+            cy.wait(2000)
+            cy.get(checkboxFinal)
+                .click()
+
+            // @ Minimo
+            cy.get('#btn-lbl-campoTipoAcessorio1').click({ force: true })
+            cy.get('#btn-item-campoTipoAcessorio1-1').click({ force: true })
+
+            cy.get('#campoLimite1')
+                .click()
+                .clear()
+                .type('1,00')
+                .wait(3000);
+
+
+            // @ COmparando premioTotal
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal;
+                novoPremioTotal = $premio.text().trim();
+                expect(novoPremioTotal).not.to.eq(PremioTotal);
+            })
+
+            cy.log('Acessórios - > Ar Condicionado R$10.347,30')
+            // @MAXIMO
+            cy.get('#campoLimite1')
+                .click()
+                .clear()
+                .type('10.347,30')
+                .wait(3000)
+
+            // @ COmparando premioTotal
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal;
+                novoPremioTotal = $premio.text().trim();
+                expect(novoPremioTotal).not.to.eq(PremioTotal);
+            })
+
         })
-        cy.wait(5000).as('esperar acabar')
-
-        console.log('idFUllfora = ' + idFull)
-        //SAVE
-        // idFull1 = idFull.split('-');
-        // nomeId = idFull1[0];
-        // numId = (idFull1[1]);
-        // checkboxFinal = '#'+ nomeId +'-'+ numId;
-
-        console.log('NUMEROID'+numId)
-        console.log('NOMEID'+nomeId)
-        console.log('CHECBOXFINAL'+checkboxFinal)
-
-        // @ Primeiro Botão de Refrencia
-        cy.get(checkboxFinal)
-            .click()
-
-
-        // @ Minimo
-        cy.get('#btn-lbl-campoTipoAcessorio0').click()
-        cy.get('#btn-item-campoTipoAcessorio0-1').click()
-
-        cy.get('#campoLimite0')
-            .click()
-            .clear()
-            .type('1,00')
-            .wait(1000);
-
-        // btnAcessorios.find('div.radiobutton')
-        //     .find('fp-radiobutton')
-        //     .find('div')
-        //     .find('input')
-        //     .first()
-        //     .invoke('attr', 'id')
-        //     .as('idValue')
-
-        // cy.get('@idValue').then((idValue) => {
-        //     console.log(idValue) //prints id
-        // })
-
-    });
+    })
 
     // it.skip('Login Usuário', () => {
 
