@@ -3,16 +3,6 @@
 import '../support/commands'
 import '../support/variaveis'
 
-
-/* PRIMEIRA PAGINA DIRETO*/
-//cy.visit('http://192.168.1.131:9090/')// @ Stella
-
-/* SEGUNDA PAGINA DIRETO*/
-// cy.visit('http://192.168.1.131:9090/#/resultado/2000040369/0');        // @ Stella
-
-/* TERCEIRA PAGINA DIRETO*/
-// cy.visit('http://192.168.1.131:9090/#/oferta/2000040349/1/0/1');    // @ Stella
-
 describe("Novo Segurado", () => {
 
     it("Dados do Segurado", () => {
@@ -70,59 +60,142 @@ describe("Novo Segurado", () => {
         //------------------------------------RESULTADO-----------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        cy.pause()
-        cy.wait(5000);
-        cy.get('.modal-content')
-            .should('be.visible').should('contain', 'Cotações concorrentes')
-            .then(($dialog) => {
-                cy.wrap($dialog).find('#btn-concorrentes-cotacao-ok').contains("Ok").click()
-            });
+        cy.wait(30000)
+        cy.modal_CotacoesConcorrentes();
 
-        // cy.get('.modal-content')
-        //     .should('be.visible').should('contain', 'Tracker Obrigatório')
-        //     .then(($dialog) => {
-        //         cy.wrap($dialog).find('#btn-enviar-confirmacao').contains("Estou Ciente").click()
-        //     });
-
-        cy.wait(5000)
-        let btnRE = cy.get('#tgl-cross-selling-on-3')
-        cy.get('#tgl-cross-selling-on-3').then(($btn) => {
-            cy.wrap($btn)
-                .shadow()
-                .find('div')
-                .find('input')
-                .should('exist').uncheck()
-                .wait(1000);
-        })
-
-        cy.log('Desativando o Checkbox do RE')
-        cy.get('#tgl-cross-selling-on-3').then(($btn) => {
-            cy.wrap($btn)
-                .shadow()
-                .find('div')
-                .find('input')
-                .should('exist').uncheck()
-                .wait(1000);
-        })
+        // // @Padronizando
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(2)')
+            .find('div')
+            .find('div')
+            .find('fp-checkbox')
+            .shadow()
+            .find('div')
+            .find('input')
+            .should('exist')
+            .uncheck({ force: true })
+            .wait(3000)
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(3)')
+            .find('div')
+            .find('div')
+            .find('fp-checkbox')
+            .shadow()
+            .find('div')
+            .find('input')
+            .should('exist')
+            .uncheck({ force: true })
+            .wait(3000)
         cy.get('#label-premio-riscado-1').then(($btn) => {
             PremioTotal = $btn.text().trim();
         })
 
+
+        cy.log('Ativando Cartão Porto')
+        cy.intercept('PUT', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamento/**/ofertacruzadacartaoporto').as('AtivandoCartaoPorto');
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(2)')
+            .find('div')
+            .find('div')
+            .find('fp-checkbox')
+            .shadow()
+            .find('div')
+            .find('input')
+            .should('exist')
+            .check({ force: true })
+            .wait(2000)
+        cy.wait('@AtivandoCartaoPorto').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200);
+        });
+
         cy.log('Ativando o Checkbox do RE')
-        cy.wait(1000);
-        btnRE.click({ force: true });
-        cy.wait(10000);
+        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentosRE').as('AtivandoRE');
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(3)')
+            .find('div')
+            .find('div')
+            .find('fp-checkbox')
+            .shadow()
+            .find('div')
+            .find('input')
+            .should('exist')
+            .check({ force: true })
+            .wait(3000)
 
-        // cy.get('#label-premio-riscado-1').then(($btn) => {
-        //     novoPremioTotal = $btn.text().trim();
-        //     expect(novoPremioTotal).not.to.be.equal(PremioTotal);
-        // })
+        cy.wait('@AtivandoRE').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200);
+        });
+        cy.wait(10000)//$$
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(3)')
+            .find('div')
+            .find(':nth-child(4)')
+            .find(':nth-child(2)')
+            .find('p')
+            .find('a').click({ force: true })
 
-        //@Submit
-        cy.get('#bt-personalizar-oferta-1').click()
-            .wait(30000)
+        cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(2)').find('fp-radiobutton').find('div').find('input').check({ force: true })
+        cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
+        cy.get('#btn-item-select-plano-residencial-0').click({ force: true })
+        cy.get('#btn-aplicar-modal-planos').click({ force: true })
+        cy.wait(3000)
 
+        cy.get('#label-premio-riscado-1').then(($premio) => {
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim();
+            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        })
 
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(3)')
+            .find('div')
+            .find(':nth-child(4)')
+            .find(':nth-child(2)')
+            .find('p')
+            .find('a').click({ force: true })
+
+        cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(2)').find('fp-radiobutton').find('div').find('input').check({ force: true })
+        cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
+        cy.get('#btn-item-select-plano-residencial-2').click({ force: true })
+        cy.get('#btn-aplicar-modal-planos').click({ force: true })
+        cy.wait(3000)
+
+        cy.get('#label-premio-riscado-1').then(($premio) => {
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim();
+            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        })
+
+        cy.get('#cross-selling-1')
+            .find('div')
+            .find(':nth-child(3)')
+            .find('div')
+            .find(':nth-child(4)')
+            .find(':nth-child(2)')
+            .find('p')
+            .find('a').click({ force: true })
+
+        cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(3)').find('fp-radiobutton').find('div').find('input').check({ force: true })
+        cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
+        cy.get('#btn-item-select-plano-residencial-2').click({ force: true })
+        cy.get('#btn-aplicar-modal-planos').click({ force: true })
+        cy.wait(3000)
+
+        cy.get('#label-premio-riscado-1').then(($premio) => {
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim();
+            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        })
+
+        cy.get('#bt-personalizar-oferta-1').click({ force: true }).wait(60000)
 
         //--------------------------------------------------------------------------------------//
         //--------------------------------------------------------------------------------------//
