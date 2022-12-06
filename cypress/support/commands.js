@@ -159,3 +159,10 @@ Cypress.Commands.add('url_env', () => {
         })
     })
 })
+
+Cypress.Commands.add('recalcular_final', () => {
+    cy.intercept('POST',`http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5');
+    cy.btn_recalcular();
+    cy.wait('@RecalculandoValorBase5').then((xhr) => { console.log(xhr)
+        expect(xhr.response.statusCode).be.eq(200);});
+})

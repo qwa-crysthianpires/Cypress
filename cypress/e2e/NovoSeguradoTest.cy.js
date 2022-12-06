@@ -7,11 +7,28 @@ describe("Novo Segurado", () => {
 
     it("Dados do Segurado", () => {
 
-        cy.visit('http://192.168.1.131:9090/#/cotacao').wait(10000);
+        cy.visit('http://192.168.1.131:9090/#/cotacao').wait(10000)
+        // cy.visit('http://192.168.1.131:9090/#/oferta/3000148483/1/1/1').wait(10000)
 
         //@ Variaveis
-        let PremioTotal = 0;
-        let novoPremioTotal = 0;
+        let PremioTotal = 0
+        let novoPremioTotal = 0
+
+        let idFull = ''
+        let nomeId = ''
+        let numId = 0
+        let checkboxFinal = ''
+        let numId2 = 0
+
+        let checkboxVidroNqueroContratar = ''
+        let radiobuttonVidros76 = ''
+        let radiobuttonVidrosReferenciada = ''
+        let radiobuttonVidrosLivreEscolha = ''
+
+        let idHTML = ''
+        let idSeparado = ''
+        let idNome = ''
+        let idNumeral = ''
 
         // Stella
         // const cpfSegurado = '227.827.558-54' 
@@ -19,40 +36,39 @@ describe("Novo Segurado", () => {
         // const nascSegurado = '24/03/1995'
 
         // const cpfSegurado = '756.538.098-96'
-        const cpfSegurado = '362.799.448-59'
-        const nomeSegurado = 'Levi Rodrigo da Silva'
-        const nascSegurado = '07/04/1999'
+        const cpfSegurado = '216.810.208-23'
+        const nomeSegurado = 'Benedito Giovanni Almeida'
+        const nascSegurado = '13/08/1996'
         const cepSegurado = '16901-852'
 
-        //// @ Função de Fechar o MODAL
-        cy.modal_BoasVindas();
+        cy.modal_BoasVindas()
 
         //--------------------------------------------------------------------------------------//
         //-------------------------@---SEGURADO-NOVO--------------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        cy.get("#ipt-cpfCnpj-segurado").click().type(cpfSegurado).should("have.value", cpfSegurado).wait(1000);
-        // cy.get("#inp-nome-novo-segurado").type(nomeSegurado).should("have.value", nomeSegurado);
-        // cy.get("#ipt-picker-inp-dataNascimento-novo-segurado").click({ force: true }).type(nascSegurado).should("have.value", nascSegurado);
-        // cy.get("#btn-lbl-select-sexo-novo-segurado").click({ force: true });
-        // cy.get("#btn-item-text-select-sexo-novo-segurado-1").click({ force: true });
-		
+        cy.get("#ipt-cpfCnpj-segurado").click().type(cpfSegurado).should("have.value", cpfSegurado).wait(1000)
+        // cy.get("#inp-nome-novo-segurado").type(nomeSegurado).should("have.value", nomeSegurado)
+        // cy.get("#ipt-picker-inp-dataNascimento-novo-segurado").click({ force: true }).type(nascSegurado).should("have.value", nascSegurado)
+        // cy.get("#btn-lbl-select-sexo-novo-segurado").click({ force: true })
+        // cy.get("#btn-item-text-select-sexo-novo-segurado-1").click({ force: true })
+
         //--------------------------------------------------------------------------------------//
         //-----------------------------CARRO-NOVO-----------------------------------------------//
         //--------------------------------------------------------------------------------------//
 
         cy.get('.input__toggle__btn').shadow().find('div').find('input').first().check({ force: true })
-        cy.get("#btn-lbl-select-ano-fabricacao").click().wait(1000);
+        cy.get("#btn-lbl-select-ano-fabricacao").click({ force: true }).wait(1000)
         cy.get("#btn-item-select-ano-fabricacao-1").click({ force: true })
-        cy.wait(1000).get("#btn-lbl-select-ano-modelo2").click({ force: true }).wait(1000);
-        cy.get("#btn-item-select-ano-modelo2-1").click({ force: true }).wait(1000);
+        cy.wait(1000).get("#btn-lbl-select-ano-modelo2").click({ force: true }).wait(1000)
+        cy.get("#btn-item-select-ano-modelo2-1").click({ force: true }).wait(1000)
         cy.get("#ipt-inp-modeloVeiculo").click({ force: true }).type("Gol")
-        cy.get('#autocomplete-item-5206').click({ force: true }).wait(1000);
-        cy.get('#chkb-veiculoZeroQuilometro').click();
-        cy.get("#btn-lbl-btn-slct-tipo-uso").click({ force: true });
-        cy.get("#btn-item-btn-slct-tipo-uso-0").click({ force: true });
-        cy.get("#ipt-ipt-cep-component-endereco").click({ force: true }).type(cepSegurado).should("have.value", cepSegurado).wait(1000);
-        cy.get("#tag-ipt-cep-component-endereco-0").click().wait(1000);
+        cy.get('#autocomplete-item-5206').click({ force: true }).wait(1000)
+        cy.get('#chkb-veiculoZeroQuilometro').shadow().find('div').find('input').check({ force: true }).wait(2000)
+        cy.get("#btn-lbl-btn-slct-tipo-uso").click({ force: true })
+        cy.get("#btn-item-btn-slct-tipo-uso-0").click({ force: true })
+        cy.get("#ipt-ipt-cep-component-endereco").click({ force: true }).type(cepSegurado).should("have.value", cepSegurado).wait(1000)
+        cy.get("#tag-ipt-cep-component-endereco-0").click().wait(1000)
 
         cy.get("#bt-buscar-ofertas-novo").click({ force: true })
 
@@ -60,1116 +76,806 @@ describe("Novo Segurado", () => {
         //------------------------------------RESULTADO-----------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        cy.wait(30000)
-        cy.modal_CotacoesConcorrentes();
+        cy.wait(60000)
+        cy.modal_CotacoesConcorrentes()
 
-        // // @Padronizando
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(2)')
-            .find('div')
-            .find('div')
-            .find('fp-checkbox')
-            .shadow()
-            .find('div')
-            .find('input')
-            .should('exist')
-            .uncheck({ force: true })
-            .wait(3000)
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(3)')
-            .find('div')
-            .find('div')
-            .find('fp-checkbox')
-            .shadow()
-            .find('div')
-            .find('input')
-            .should('exist')
-            .uncheck({ force: true })
-            .wait(3000)
-        cy.get('#label-premio-riscado-1').then(($btn) => {
-            PremioTotal = $btn.text().trim();
-        })
+        cy.log('Padronizando')
+        // cy.get('#cross-selling-1').find('div').find(':nth-child(2)').find('div').find('div').find('fp-checkbox').shadow().find('div').find('input').should('exist').uncheck({ force: true }).wait(3000)
+        cy.get('#cross-selling-1').find('div').find(':nth-child(3)').find('div').find('div').find('fp-checkbox').shadow().find('div').find('input').should('exist').uncheck({ force: true }).wait(3000)
+        cy.get('#label-premio-riscado-1')
+            .then(($btn) => {
+                PremioTotal = $btn.text().trim()
+            })
 
-
-        cy.log('Ativando Cartão Porto')
-        cy.intercept('PUT', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamento/**/ofertacruzadacartaoporto').as('AtivandoCartaoPorto');
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(2)')
-            .find('div')
-            .find('div')
-            .find('fp-checkbox')
-            .shadow()
-            .find('div')
-            .find('input')
-            .should('exist')
-            .check({ force: true })
-            .wait(2000)
-        cy.wait('@AtivandoCartaoPorto').then((xhr) => {
-            console.log(xhr)
-            expect(xhr.response.statusCode).be.eq(200);
-        });
+        // cy.log('Ativando Cartão Porto')
+        // cy.intercept('PUT', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamento/**/ofertacruzadacartaoporto').as('AtivandoCartaoPorto')
+        // cy.get('#cross-selling-1').find('div').find(':nth-child(2)').find('div').find('div').find('fp-checkbox').shadow().find('div').find('input').should('exist').check({ force: true }).wait(2000)
+        // cy.wait('@AtivandoCartaoPorto')
+        //     .then((xhr) => {
+        //         console.log(xhr)
+        //         expect(xhr.response.statusCode).be.eq(200)
+        //     })
 
         cy.log('Ativando o Checkbox do RE')
-        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentosRE').as('AtivandoRE');
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(3)')
-            .find('div')
-            .find('div')
-            .find('fp-checkbox')
-            .shadow()
-            .find('div')
-            .find('input')
-            .should('exist')
-            .check({ force: true })
-            .wait(3000)
+        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentosRE').as('AtivandoRE')
+        cy.get('#cross-selling-1').find('div').find(':nth-child(3)').find('div').find('div').find('fp-checkbox').shadow().find('div').find('input').should('exist').check({ force: true }).wait(3000)
+        cy.wait('@AtivandoRE')
+            .then((xhr) => {
+                console.log(xhr)
+                expect(xhr.response.statusCode).be.eq(200)
+            })
 
-        cy.wait('@AtivandoRE').then((xhr) => {
-            console.log(xhr)
-            expect(xhr.response.statusCode).be.eq(200);
-        });
-        cy.wait(10000)//$$
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(3)')
-            .find('div')
-            .find(':nth-child(4)')
-            .find(':nth-child(2)')
-            .find('p')
-            .find('a').click({ force: true })
-
+        cy.wait(5000)
+        cy.log('RE -> Padronizando Casa 1 Quarto')
+        cy.get('#cross-selling-1').find('div').find(':nth-child(3)').find('div').find(':nth-child(4)').find(':nth-child(2)').find('p').find('a').click({ force: true })
         cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(2)').find('fp-radiobutton').find('div').find('input').check({ force: true })
         cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
         cy.get('#btn-item-select-plano-residencial-0').click({ force: true })
         cy.get('#btn-aplicar-modal-planos').click({ force: true })
-        cy.wait(3000)
-
+        cy.wait(2000).wait(3000)
         cy.get('#label-premio-riscado-1').then(($premio) => {
             PremioTotal = novoPremioTotal
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(3)')
-            .find('div')
-            .find(':nth-child(4)')
-            .find(':nth-child(2)')
-            .find('p')
-            .find('a').click({ force: true })
-
+        cy.log('RE -> Padronizando Casa 3 Quartos')
+        cy.get('#cross-selling-1').find('div').find(':nth-child(3)').find('div').find(':nth-child(4)').find(':nth-child(2)').find('p').find('a').click({ force: true })
         cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(2)').find('fp-radiobutton').find('div').find('input').check({ force: true })
         cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
         cy.get('#btn-item-select-plano-residencial-2').click({ force: true })
         cy.get('#btn-aplicar-modal-planos').click({ force: true })
         cy.wait(3000)
-
-        cy.get('#label-premio-riscado-1').then(($premio) => {
+        cy.wait(2000).get('#label-premio-riscado-1').then(($premio) => {
             PremioTotal = novoPremioTotal
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        cy.get('#cross-selling-1')
-            .find('div')
-            .find(':nth-child(3)')
-            .find('div')
-            .find(':nth-child(4)')
-            .find(':nth-child(2)')
-            .find('p')
-            .find('a').click({ force: true })
-
+        cy.log('RE -> Padronizando Casa 3 Quartos')
+        cy.get('#cross-selling-1').find('div').find(':nth-child(3)').find('div').find(':nth-child(4)').find(':nth-child(2)').find('p').find('a').click({ force: true })
         cy.get('.plano-residencial').find('div').find('div').find('div').find('div').find(':nth-child(3)').find('fp-radiobutton').find('div').find('input').check({ force: true })
         cy.get('#btn-lbl-select-plano-residencial').click({ force: true })
         cy.get('#btn-item-select-plano-residencial-2').click({ force: true })
         cy.get('#btn-aplicar-modal-planos').click({ force: true })
         cy.wait(3000)
-
-        cy.get('#label-premio-riscado-1').then(($premio) => {
+        cy.wait(2000).get('#label-premio-riscado-1').then(($premio) => {
             PremioTotal = novoPremioTotal
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
         cy.get('#bt-personalizar-oferta-1').click({ force: true }).wait(60000)
 
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @3ªPAGINA
+
 
         //--------------------------------------------------------------------------------------//
+        //------------------------------------PERSONALIZAR--------------------------------------//
         //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @VALOR BASE
 
-        cy.wait(10000)
-        // @save
-        let btnSalvar = cy.get('#btn-salvar')
-        btnSalvar
-            .click()
-            .wait(1000);
-
-        cy.wait(10000)
-        btnSalvar = cy.get('#btn-salvar')
-        cy.get('#txtPremioOferta').then(($btn) => {
-            PremioTotal = novoPremioTotal
-            novoPremioTotal = $btn.text().trim();
+        cy.log('@ Valor Base -> Padronizando')
+        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })
+        cy.get('#btn-item-btn-slct-casco-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(3000)
 
-        cy.log('Valor Base com 5%')
-        cy.get('#input-valor-base-variacao-opcionais')
-            .clear()
-            .type(5.00)
-            .should('have.value', '5,00%')
-            .wait(5000)
+        cy.log('@Padronizando para 1%')
+        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacao/v1/lmi/depreciacao/').as('alterandoValorBase1')
+        cy.get('#input-valor-base-variacao-opcionais').clear({ force: true }).type(1.00)
+        cy.wait('@alterandoValorBase1')
 
-        let btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click()
-                .wait(15000)
-            cy.get('#txtPremioOferta').then(($premio) => {
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($btn) => {
+                PremioTotal = $btn.text().trim()
+                cy.log('Premio: ' + PremioTotal)
+            })
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacao/v1/lmi/depreciacao/').as('alterandoValorBase20')
+        cy.log('@ Valor Base -> 20% ')
+        cy.get('#input-valor-base-variacao-opcionais').clear({ force: true }).type(-20.00).should('have.value', '-20,00%', '-20%')
+        cy.wait('@alterandoValorBase20').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacao/v1/lmi/depreciacao/').as('alterandoValorBase5')
+        cy.log('@ Valor Base -> 5% ')
+        cy.get('#input-valor-base-variacao-opcionais').clear({ force: true }).type(5.00)
+        cy.wait('@alterandoValorBase5').then((xhr) => {console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)})
+        cy.wait(10000)
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)})
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
                 PremioTotal = novoPremioTotal
-                novoPremioTotal = $premio.text().trim();
-                expect(novoPremioTotal).not.to.eq(PremioTotal);
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
             })
-        }
 
-        cy.wait(1000);
-        btnSalvar.click();
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-        cy.log('Valor Base com -20%')
-        cy.get('#input-valor-base-variacao-opcionais')
-            .clear()
-            .type(-20.00)
-            .should('have.value', '-20,00%', '-20%') // Premio =  R$ 165.556,80
-            .wait(5000);
-
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('be.visible')) {
-            btnRecalcular.click()
-                .wait(15000);
-            cy.get('#txtPremioOferta').then(($premio) => {
-                PremioTotal = novoPremioTotal
-                novoPremioTotal = $premio.text().trim();
-                expect(novoPremioTotal).not.to.eq(PremioTotal);
+        //--------------------------------------------------------------------------------------//
+        //---------------------------------COOBERTURAS------------------------------------------//
+        //--------------------------------------------------------------------------------------//
+        cy.log('@Padronizando o Casco // casco -> desativado')
+        cy.get('#checkbox-cobertura-casco').shadow().find('div').find('input').should('exist').uncheck({ force: true }).wait(5000)
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($btn) => {
+                PremioTotal = $btn.text().trim()
             })
-        }
-        btnSalvar.click();
 
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @COBERTURAS
-
-        btnSalvar = cy.get('#btn-salvar')
-        const btnCasco = cy.get('#checkbox-cobertura-casco');
-        cy.wait(5000);
-        // const btnCasco = cy.get('#tgl-cross-selling-on-3');
-        // cy.get('.coberturas__casco__checkbox')
-        //     .should('not.be.checked')
-
-        // @    Casco
-        cy.log('Desativado o checkbox do @CASCO')
-        btnCasco.shadow()
-            .find('div')
-            .find('input').should('exist').uncheck()
-            .wait(5000);
-
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('be.visible')) {
-            btnRecalcular.click()
-                .wait(15000);
-            cy.get('#txtPremioOferta').then(($premio) => {
-                PremioTotal = novoPremioTotal;
-                novoPremioTotal = $premio.text().trim();
-                expect(novoPremioTotal).not.to.eq(PremioTotal);
-            })
-        }
-
-        // @ Função Fechar Modal
-        // cy.get('.modal-content')
-        //     .should('exist').should('contain', 'Regra de vistoria prévia alterada')
-        //     .then(($dialog) => {
-        //         cy.wrap($dialog).find('#btn-vistoria-previa-agendamento-ok').contains("Ok").click()
-        //     });
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        cy.log('Cobertura -> Compreensiva / Modalidade -> Valor de Mercado / Franquia -> Obrigatória');
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         cy.log('Ativando o checkbox do @CASCO')
-        cy.get('#checkbox-cobertura-casco')
-            .shadow()
-            .find('div')
-            .find('input').should('exist').check()
-            .wait(5000);
-        // Recalculo Obrigatorio quando ativa o Checkbox do @CASCO
-        // @    Cobertura
-        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })                                    //      $Cobertura$
-        cy.get('#btn-item-btn-slct-casco-0').click({ force: true })                                 // @    Compreensiva
-        // @     Modalidade
-        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })                        //      $Modalidade$
-        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })                     // @    Valor de Mercado
-        // @     Franquia
-        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })                          //      $Franquia$
-        cy.get('#btn-item-btn-slct-franquia-seguro-0').click({ force: true }).as('index 0')         //  Obrigatoria
+        cy.get('#checkbox-cobertura-casco').shadow().find('div').find('input').should('exist').check({ force: true })
+        cy.wait(5000)
 
-        // @    Recalulado Obrigatório
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('be.visible')) {
-            btnRecalcular.click()
-                .wait(15000);
-        }
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        // @ Função Fechar Modal
-        cy.get('.modal-content')
-            .should('be.visible').should('contain', 'Regra de vistoria prévia alterada')
-            .then(($dialog) => {
-                cy.wrap($dialog).find('#btn-vistoria-previa-agendamento-ok').contains("Ok").click()
-            });
-
-        // @ COmparando txt
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor de Mercado / Franquia -> 200%')
-
-        // @ Franquia - 200% da Obrigatoria
+        cy.log('Compreensiva / Valor de Mercado / Obrigatória')
+        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })
+        cy.get('#btn-item-btn-slct-casco-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })
         cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-1').click({ force: true })
-        cy.wait(1000);
-        // @ Função Recalcular 
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor de Mercado / Franquia -> 125%')
-
-        // @ Franquia - 125%
+        cy.log('Compreensiva / Valor de Mercado / 25%')
         cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-2').click({ force: true }).as('index 2')
-        cy.wait(1000);
-
-        // @ Função Recalcular 
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.get('#btn-item-btn-slct-franquia-seguro-0').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor de Mercado / Franquia -> 150%')
-
-        // @ Franquia - 150%
+        cy.log('Cobertura -> Compreensiva / Valor de Mercado / 175%')
         cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true }).as('index 3')
-        cy.wait(1000);
-
-        // @ Função Comparar Novo != Antigo
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.get('#btn-item-btn-slct-franquia-seguro-2').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor de Mercado / Franquia -> 175%')
-
-        // @ Franquia - 175%
-        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-4').click({ force: true }).as('index 3')
-
-        // @ Função Comparar Novo != Antigo
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor Determinado / Franquia -> Obrigatória')
-
-        // @     Modalidade -> Valor de Mercado
+        cy.log('Compreensiva / Valor Determinado / Obrigatória')
         cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
         cy.get('#btn-item-btn-slct-modalidade-seguro-1').click({ force: true })
-        // @     Franquia - > Obrigatória
         cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-0').click({ force: true }).as('index 0')
-
-        // @ Função Recalcular 
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor Determinado / Franquia -> 200%')
-
-        // @ Franquia - 200%
+        cy.log('Compreensiva / Valor Determinado / 25%')
         cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
-        cy.get('#btn-item-btn-slct-franquia-seguro-1').click({ force: true })
-        cy.wait(1000);
-
-        // @ Função Recalcular 
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.get('#btn-item-btn-slct-franquia-seguro-0').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor Determinado / Franquia -> 125%')
-
-        // @ Franquia - 125%
-        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })// @ Franquia
-        cy.get('#btn-item-btn-slct-franquia-seguro-2').click({ force: true }).as('index 2') // 
-        cy.wait(1000);
-
-        // @ Função Recalcular 
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.log('Compreensiva / Valor Determinado / 175%')
+        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-franquia-seguro-7').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor Determinado / Franquia -> 150%')
-
-        // @ Franquia - 150%
-        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })// @ Franquia
-        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true }).as('index 3')// 
-        cy.wait(1000);
-
-        // @ Função Recalcular
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.log('Incêndio e Roubo / Valor de Mercado / Obrigatória')
+        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })
+        cy.get('#btn-item-btn-slct-casco-1').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-
-        cy.log('Cobertura -> Compreemsiva / Modalidade -> Valor Determinado / Franquia -> 175%')
-
-        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })// @ Franquia
-        cy.get('#btn-item-btn-slct-franquia-seguro-4').click({ force: true }).as('index 3')// // @ Franquia - 175% da Obrigatoria
-        cy.wait(1000)
-        // @ Função Comparar Novo != Antigo
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-        cy.log('Cobertura -> Incêndio e Rouo / Modalidade -> Valor de Mercado / Franquia -> Obrigatória')
-        // @    Cobertura
-        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })        //      $Cobertura$
-        cy.get('#btn-item-btn-slct-casco-1').click({ force: true })     // @    Compreensiva
-        //  @     Modalidade
-        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })        //      $Modalidade$
-        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })     // @    Valor de Mercado
-        cy.wait(1000);
-
-        // @ Função Comparar Novo != Antigo
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-        // @ Função Comparar Novo != Antigo
-        PremioTotal = novoPremioTotal;
-        cy.get('#txtPremioOferta').then(($premio) => {
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-
-
-        cy.log('Cobertura -> Incêndio e Roubo / Modalidade -> Valor Determinado / Franquia -> Obrigatória')
-        //  @     Modalidade
+        cy.log('Incêndio e Roubo / Valor Determinado / Obrigatória')
         cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })        //      $Modalidade$
         cy.get('#btn-item-btn-slct-modalidade-seguro-1').click({ force: true })     // @    Valor Determinado
-        cy.wait(1000)
-        // @ Função Comparar Novo != Antigo
-        btnRecalcular = cy.get('#recalcular')
-        if (btnRecalcular.should('to.be.visible')) {
-            btnRecalcular.click({ force: true })
-                .wait(15000);
-        }
-        PremioTotal = novoPremioTotal;
-        cy.get('#txtPremioOferta').then(($premio) => {
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
+        cy.btn_recalcular()
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
         })
+        cy.wait(10000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
 
+        cy.log('Compreensiva / Valor de Mercado / Obrigatória')
+        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })
+        cy.get('#btn-item-btn-slct-casco-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true })
+
+        cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('Recalculando9')
+        cy.btn_recalcular()
+        cy.wait('@Recalculando9').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
+        cy.wait(10000)
 
 
 
         //--------------------------------------------------------------------------------------//
-        //-------------------------@RCFV--DANOS-MATERIAIS---------------------------------------//
+        //-----------------------ACESSÓRIOS, EQUIPAMENTOS OU CARROCERIAS------------------------//
         //--------------------------------------------------------------------------------------//
-
-        // @0
-        cy.log('@RFCV-DANOS-MATERIAIS INDEX 0 ')
-
-        cy.get('#labelRCFA-DanosMateriais > .slider__label__icon > .ng-star-inserted')
-
-        cy.get('[ng-reflect-index="0"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-        let primeira = cy.get('[ng-reflect-index="0"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--1')
-        primeira.click({ force: true }).wait(2000);
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-        //////////////////////////////////////////////////////////////////
-        // @38
-
-        cy.log('@RFCV-DANOS-MATERIAIS INDEX 38 ')
-        cy.get('[ng-reflect-index="0"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-        let ultima = cy.get('[ng-reflect-index="0"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--38')
-        ultima.click({ force: true }).wait(2000);
-
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-        //--------------------------------------------------------------------------------------//
-        //-------------------------@RCFV--DANOS-CORPORAIS---------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        //@0
-        cy.get('#labelRCFA-DanosMateriais > .slider__label__icon > .ng-star-inserted')
-
-
-        cy.get('[ng-reflect-index="1"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            // cy.get('[ng-reflect-id-label="dropdown-RCFV-DanosCorporais"]').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-        primeira = cy.get('[ng-reflect-index="1"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--2')
-        primeira.click({ force: true }).wait(2000);
-
-        /////////////////////////////////////////////////////////////////////////////////////////
-        // @38
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-        ultima = cy.get('[ng-reflect-index="1"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--38')
-        ultima.click({ force: true }).wait(2000);
-
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-        //--------------------------------------------------------------------------------------//
-        //-------------------@RCFV--ACIDENTES-PESSOAIS-PASSAGEIROS------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @0
-
-        cy.get('#labelAcidentesPessoaisPassageiros > .slider__label__icon > .ng-star-inserted')
-
-        cy.get('[ng-reflect-index="2"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-        primeira = cy.get('[ng-reflect-index="2"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--0')
-        primeira.click({ force: true }).wait(2000);
-
-        /////////////////////////////////////////////////////////////////////////////////////////
-        // @38
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-        ultima = cy.get('[ng-reflect-index="2"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--23 > #btn-item-text--23')
-        ultima.click({ force: true }).wait(2000);
-
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //-------------------@RCFV--DANOS-MORAIS-E-ESTETICOS------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @0
-        cy.get('#labelDanosMoraiseEstéticos > .slider__label__icon > .ng-star-inserted')
-
-        cy.get('[ng-reflect-index="3"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-        primeira = cy.get('[ng-reflect-index="3"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--3 > #btn-item-text--3')
-        primeira.click({ force: true }).wait(2000);
-
-        // @ Função Comparar Novo != Antigo
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-        /////////////////////////////////////////////////////////////////////////////////////////
-        // @38
-
-        cy.get('[ng-reflect-index="3"]')
-            .find('.cobertura-range').should('to.be.visible')
-            .find('.range').should('to.be.visible')
-            .find('.slider-item').should('to.be.visible')
-            .find('.slider').should('to.be.visible')
-            .find('.slider__box').should('to.be.visible')
-            .find('.input').should('to.be.visible')
-            .find('.input__dropdown').should('to.be.visible')
-            .find('.enabled-dropdown').should('to.be.visible')
-            .find('.inp-dropdown').should('to.be.visible')
-            .find('#btn-lbl-').should('to.be.visible').click({ force: true })
-            .wait(2000)
-
-        ultima = cy.get('[ng-reflect-index="3"] > .cobertura-range > .range > .slider-item > .slider > .slider__box > .input > .input__dropdown > .enabled-dropdown > #box- > .dropdown-item-box > #btn-item--38 > #btn-item-text--5')
-        ultima.click({ force: true }).wait(2000);
-
-        cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
-        })
-
-
-
-
-
-        //----------------------------------------------------------------------------------------//
-        //                       ACESSÓRIOS, EQUIPAMENTOS OU CARROCERIAS                          //
-        //----------------------------------------------------------------------------------------//
-        let idFull = '';
-        let nomeId = '';
-        let numId = 0;
-        let checkboxFinal = '';
-        let numId2 = 0;
-
 
         cy.log('Acessórios - Index 1 - ')
-        const btnAdicionarAcessorio = cy.get('#icon-btnIconeAddAcessorio');
-        //@ Iniciando um Acessorio
-        btnAdicionarAcessorio
-            .should('to.be.visible')
-            .click()
-            .wait(2000)
+        cy.get('#icon-btnIconeAddAcessorio').should('to.be.visible').click({ force: true }).wait(2000)
+        cy.get('.card_fields_tipoCobertura').find('div.radiobutton').find('fp-radiobutton').find('div').find('input').as('Input que tenha ID').first().invoke('attr', 'id').as('idValue')
+        cy.get('@idValue')
+            .then((idValue) => {
+                idFull = idValue
+                idFull = idFull.split('-')
+                nomeId = idFull[0]
+                numId = (idFull[1])
+                checkboxFinal = '#' + nomeId + '-' + numId
+
+                cy.wait(3000)
+                cy.get(checkboxFinal).click({ force: true })
+
+                cy.log('Acessórios - > Ar Condicionado R$1,00')
+                cy.get('#btn-lbl-campoTipoAcessorio0').click({ force: true })
+                cy.get('#btn-item-campoTipoAcessorio0-1').click({ force: true })
+                cy.get('#campoLimite0').click({ force: true }).clear({ force: true }).type('1,00')
+                cy.wait(3000)
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
+
+                cy.log('Acessórios - > Ar Condicionado R$3.671,45')
+                cy.get('#campoLimite0').click({ force: true }).clear({ force: true }).type('3.671,45')
+                cy.wait(3000)
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
+
+                cy.get('#icon-btnIconeAddAcessorio').should('to.be.visible').click({ force: true }).wait(2000)
+                numId2 = parseInt(numId) + 3
+                checkboxFinal = '#' + nomeId + '-' + numId2
+
+                cy.log('Referência')
+                cy.log('Acessórios - > Ar Condicionado R$1,00')
+                cy.wait(2000)
+                cy.get(checkboxFinal).click({ force: true })
+
+                cy.get('#btn-lbl-campoTipoAcessorio1').click({ force: true })
+                cy.get('#btn-item-campoTipoAcessorio1-1').click({ force: true })
+                cy.get('#campoLimite1').click({ force: true }).clear({ force: true }).type('1,00')
+                cy.wait(3000)
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
+
+                cy.log('Acessórios - > Ar Condicionado R$10.347,30')
+                cy.get('#campoLimite1').click({ force: true }).clear({ force: true }).type('10.347,30')
+                cy.wait(3000)
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
+            })
 
 
-        const btnAcessorios = cy.get('.card_fields_tipoCobertura')
 
+        //--------------------------------------------------------------------------------------//
+        //-------------------------------------VIDROS-------------------------------------------//
+        //--------------------------------------------------------------------------------------//
+        //$$
+        cy.log('Vidros ->  NãoQueroContratar')
+        cy.get('#cobertura-vidro').shadow().find('div').find('input').uncheck({ force: true }).wait(1000)
+        // Contratando Vidros
+        cy.get('#cobertura-vidro').shadow().find('div').find('input').check({ force: true }).wait(1000)
 
-        btnAcessorios
-            .find('div.radiobutton')
-            .find('fp-radiobutton')
-            .find('div')
-            .find('input').as('Input que tenha ID')
-            .first()
-            .invoke('attr', 'id')
-            .as('idValue')
+        cy.get('#cobertura-vidro').shadow().find('div').find('input').check({ force: true }).wait(2000)
 
+        cy.get('#txtPremioOferta').then(($premio) => {
+            novoPremioTotal = $premio.text().trim()
+        })
 
+        cy.get('#cobertura-vidro').shadow().find('div').find('input').uncheck()
+        cy.get('.card').find('fp-card').find('div').find('div').find('fp-radiobutton').find('div').find('input').as('Input que tenha ID').first().invoke('attr', 'id').as('idValue')
         cy.get('@idValue').then((idValue) => {
-            idFull = idValue
-            idFull = idFull.split('-');
-            nomeId = idFull[0];
-            numId = (idFull[1]);
-            checkboxFinal = '#' + nomeId + '-' + numId;
-            cy.wait(2000)
-            cy.get(checkboxFinal)
-                .click()
+            idHTML = idValue
+            idSeparado = idHTML.split('-')
+            idNome = idSeparado[0]
+            idNumeral = (idSeparado[1])
 
-
-            cy.log('Acessórios - > Ar Condicionado R$1,00')
-
-            // @ Minimo
-            cy.get('#btn-lbl-campoTipoAcessorio0').click({ force: true })
-            cy.get('#btn-item-campoTipoAcessorio0-1').click({ force: true })
-
-            cy.get('#campoLimite0')
-                .click()
-                .clear()
-                .type('1,00')
-                .wait(3000);;
-
-
-            // @ COmparando premioTotal
-            // cy.get('#txtPremioOferta').then(($premio) => {
-            //     PremioTotal = novoPremioTotal;
-            //     novoPremioTotal = $premio.text().trim();
-            //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-            // })
-
-            cy.log('Acessórios - > Ar Condicionado R$10.347,30')
-            // @MAXIMO
-            cy.get('#campoLimite0')
-                .click()
-                .clear()
-                .type('10.347,30')
-                .wait(3000);
-
-            // @ COmparando premioTotal
-            // cy.get('#txtPremioOferta').then(($premio) => {
-            //     PremioTotal = novoPremioTotal;
-            //     novoPremioTotal = $premio.text().trim();
-            //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-            // })
-
-
-
-            //@Segundo
-            btnAdicionarAcessorio
-                .should('to.be.visible')
-                .click()
+            radiobuttonVidros76 = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonVidros76)
+                .check({ force: true })
                 .wait(2000)
+        })
 
-            numId2 = parseInt(numId) + 3;
-            checkboxFinal = '#' + nomeId + '-' + numId2;
+        cy.log('Vidros ->  Referenciada')
+        cy.get('.row-options').find('div').find('fp-radiobutton').find('div').find('input').as('Input que tenha ID').first().invoke('attr', 'id').as('idValue')
+        cy.get('@idValue')
+            .then((idValue) => {
+                idHTML = idValue
+                idSeparado = idHTML.split('-')
+                idNome = idSeparado[0]
+                idNumeral = (idSeparado[1])
 
-            cy.log('Referência')
+                radiobuttonVidrosReferenciada = '#' + idNome + '-' + idNumeral
+                cy.wait(2000)
+                cy.get(radiobuttonVidrosReferenciada).check({ force: true }).wait(2000)
 
-            cy.log('Acessórios - > Ar Condicionado R$1,00')
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
 
+                cy.log('Vidros ->  Livre Escolha')
+                idNumeral = parseInt(idNumeral) + 1
+                radiobuttonVidrosLivreEscolha = '#' + idNome + '-' + idNumeral
+                cy.get(radiobuttonVidrosLivreEscolha).check({ force: true }).wait(5000)
+
+                cy.get('#txtPremioOferta').then(($premio) => {
+                    PremioTotal = novoPremioTotal
+                    novoPremioTotal = $premio.text().trim()
+                    expect(novoPremioTotal).not.to.eq(PremioTotal)
+                })
+
+            })
+
+        //--------------------------------------------------------------------------------------//
+        //---------------------------------ASSISTENCIAS-----------------------------------------//
+        //--------------------------------------------------------------------------------------//
+
+
+        let radiobuttonAssistencia31 = ''
+        let idradiobuttonAssistencia31 = ''
+
+        // @ 32
+        let radiobuttonAssistencia32Completo = ''
+        let radiobuttonAssistencia32Referenciada = ''
+        let radiobuttonAssistencia32LivreEscolha = ''
+
+        //33
+        let radiobuttonAssistencia33Completo = ''
+        let radiobuttonAssistencia33Referenciada = ''
+        let radiobuttonAssistencia33LivreEscolha = ''
+
+        //31
+        cy.get('.card_header').find('div').find('fp-radiobutton').find('div').find('input').as('Input que tenha ID').first().invoke('attr', 'id').as('idValue')
+        cy.get('@idValue').then((idValue) => {
+            idHTML = idValue
+            idSeparado = idHTML.split('-')
+            idNome = idSeparado[0]
+            idNumeral = (idSeparado[1])
+
+            cy.log('31 -> Essencial')
+            idradiobuttonAssistencia31 = '#' + idNome + '-' + idNumeral
             cy.wait(2000)
-            cy.get(checkboxFinal)
-                .click()
+            cy.get(idradiobuttonAssistencia31).click({ force: true }).wait(2000)
 
-            // @ Minimo
-            cy.get('#btn-lbl-campoTipoAcessorio1').click({ force: true })
-            cy.get('#btn-item-campoTipoAcessorio1-1').click({ force: true })
+            //@Ativando 32
+            cy.log('32 -> Completo')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia32Completo = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia32Completo).click({ force: true }).wait(2000)
 
-            cy.get('#campoLimite1')
-                .click()
-                .clear()
-                .type('1,00')
-                .wait(3000);
+            cy.log('32 -> Referenciada')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia32Referenciada = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia32Referenciada).click({ force: true }).wait(2000)
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
 
-            // @ COmparando premioTotal
-            // cy.get('#txtPremioOferta').then(($premio) => {
-            //     PremioTotal = novoPremioTotal;
-            //     novoPremioTotal = $premio.text().trim();
-            //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-            // })
+            cy.log('32 -> Livre escolha')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia32LivreEscolha = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia32LivreEscolha).click({ force: true }).wait(2000)
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
-            cy.log('Acessórios - > Ar Condicionado R$10.347,30')
-            // @MAXIMO
-            cy.get('#campoLimite1')
-                .click()
-                .clear()
-                .type('10.347,30')
-                .wait(3000);
 
-            // @ COmparando premioTotal
-            // cy.get('#txtPremioOferta').then(($premio) => {
-            //     PremioTotal = novoPremioTotal;
-            //     novoPremioTotal = $premio.text().trim();
-            //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-            // })
+            //@Ativando 33
+            cy.log('33 -> Completo')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia33Completo = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia33Completo).click({ force: true }).wait(2000)
+
+
+            cy.log('33 -> Referenciada')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia33Referenciada = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia33Referenciada).click({ force: true }).wait(2000)
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+            cy.log('33 -> Livre escolha')
+            idNumeral = parseInt(idNumeral) + 1
+            radiobuttonAssistencia33LivreEscolha = '#' + idNome + '-' + idNumeral
+            cy.get(radiobuttonAssistencia33LivreEscolha).click({ force: true }).wait(2000)
+            cy.get('#txtPremioOferta').then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
         })
 
+        
+        //--------------------------------------------------------------------------------------//
+        //---------------------------------CARRO RESERVA----------------------------------------//
+        //--------------------------------------------------------------------------------------//
+
+        cy.log('ESSENCIAL OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(2)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('ESSENCIAL LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(2)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('COMPLETO OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(3)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(3)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('CONFORTO OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(4)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('CONFORTO LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(4)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(5)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(5)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(6)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(6)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(7)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(7)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(8)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
+
+        cy.log('VIP LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(8)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
 
+        cy.log('VIP OPCAO')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(9)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
-        // //----------------------------------------------------------------------------------------//
-        // //                                          VIDROS                                        //
-        // //----------------------------------------------------------------------------------------//
+        cy.log('VIP LIVRE ESCOLHA')
+        cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(9)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').last().check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta')
+            .then(($premio) => {
+                PremioTotal = novoPremioTotal
+                novoPremioTotal = $premio.text().trim()
+                expect(novoPremioTotal).not.to.eq(PremioTotal)
+            })
 
-        // @ Ativando a opção nao quero contratar 
-        const vidroNaoQueroContratar = cy.get('[name=cobertura-vidro')
-            .should('exist')
-            .should('to.be.visible')
-            .uncheck()
-            .wait(1000);
 
-        // @ Desativando a opção nao quero contratar
-        vidroNaoQueroContratar
-            .should('exist')
-            .should('to.be.visible')
-            .check()
-            .wait(1000);
-
-        //76 - Vidros, retrovisores, lanternas e faróis
-        // @ Referenciada
-        cy.get('.questao corpo__item')
-            .find('div')
-            .find('div').last()
-            .find('div').first()
-            .find('div')
-            .find('fp-radiobutton')
-            .find('input').should('exist')
-            .check();
-        // cy.get('#txtPremioOferta').then(($premio) => {
-        //     PremioTotal = novoPremioTotal;
-        //     novoPremioTotal = $premio.text().trim();
-        //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-        // })
-        // vidroNaoQueroContratar.uncheck().wait(1000);
-        // cy.get('#txtPremioOferta').then(($premio) => {
-        //     PremioTotal = novoPremioTotal;
-        //     novoPremioTotal = $premio.text().trim();
-        //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-        // })
-        // // @ Livre Escolha 
-        // cy.get('.questao corpo__item')
-        // .find('div')
-        // .find('div').last()
-        // .find('div').last()
-        // .find('div')
-        // .find('fp-radiobutton')
-        // .find('input').should('exist')
-        // .check();
-        // cy.get('#txtPremioOferta').then(($premio) => {
-        //     PremioTotal = novoPremioTotal;
-        //     novoPremioTotal = $premio.text().trim();
-        //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-        // })
-        // vidroNaoQueroContratar.uncheck().wait(1000);
-        // cy.get('#txtPremioOferta').then(($premio) => {
-        //     PremioTotal = novoPremioTotal;
-        //     novoPremioTotal = $premio.text().trim();
-        //     expect(novoPremioTotal).not.to.eq(PremioTotal);
-        // })
-
-        //----------------------------------------------------------------------------------------//
-        //                                         ACESSORIOS                                       //
-        //----------------------------------------------------------------------------------------//
-
-        cy.log('31 - Essencial - Assistência Km ilimitado / Serviços à residência')
-        cy.get('#checkbox-0').click();
-        cy.wait(1000)
-
+        //--------------------------------------------------------------------------------------//
+        //--------------------------------DESPESAS-EXTRAORDINÁRIAS------------------------------//
+        //--------------------------------------------------------------------------------------//
+        cy.log('Padronizando')
+        cy.get('#assistencia-2').shadow().find('div').find('input').check({ force: true }).wait(1000).uncheck({ force: true })
+        cy.get('app-assistencias').find('div').find(':nth-child(3)').find(':nth-child(2)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').check({ force: true }).wait(2000)
         cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        ////////////////////////////////
 
-        cy.log('32 - Completo - Assistência Km ilimitado / Serviços à residência')
 
-        //@referencia
-        cy.get('#checkbox-1').click();
-        cy.wait(1000)
+        //--------------------------------------------------------------------------------------//
+        //------------------------------------FRAQNUIASS----------------------------------------//
+        //--------------------------------------------------------------------------------------//
 
-        ////////////////////////////////
+        cy.log('Padronizando')
+        cy.get('#assistencia-3').shadow().find('div').find('input').check({ force: true }).wait(2000)
+        cy.get('#assistencia-3').shadow().find('div').find('input').uncheck({ force: true }).wait(2000)
 
-        cy.get('#checkbox-2').click();
-        cy.wait(1000)
-
+        cy.get('app-assistencias').find('div').find(':nth-child(4)').find(':nth-child(2)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').check({ force: true }).wait(2000)
         cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        //@Livre escolha
-        cy.get('#checkbox-3').click();
-        cy.wait(1000)
-
+        cy.get('app-assistencias').find('div').find(':nth-child(4)').find(':nth-child(3)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').check({ force: true }).wait(3000)
+        cy.recalcular_final()
+        cy.wait(10000)
         cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
+        //--------------------------------------------------------------------------------------//
+        //---------------------------DEMAIS-ASSISTENCIAs----------------------------------------//
+        //--------------------------------------------------------------------------------------//
 
-
-        cy.log('33 - Completo Mais - Assistência Km ilimitado / Serviços à residência')
-
-        //@referencia
-        cy.get('#checkbox-4').click();
-        cy.wait(1000)
-
-        ////////////////////////////////
-
-        //@Referencia
-        cy.get('#checkbox-5').click();
-        cy.wait(1000)
-
+        cy.get('app-assistencias').find('div').find(':nth-child(5)').find(':nth-child(2)').find('fp-card').find('div').find(':nth-child(1)').find('fp-checkbox').shadow().find('div').find('input').check({ force: true }).wait(3000)
         cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        //@Livre escolha
-        cy.get('#checkbox-6').click();
-        cy.wait(1000)
-
+        cy.get('app-assistencias').find('div').find(':nth-child(5)').find(':nth-child(3)').find('fp-card').find('div').find(':nth-child(1)').find('fp-checkbox').shadow().find('div').find('input').check({ force: true }).wait(2000)
         cy.get('#txtPremioOferta').then(($premio) => {
-            PremioTotal = novoPremioTotal;
-            novoPremioTotal = $premio.text().trim();
-            expect(novoPremioTotal).not.to.eq(PremioTotal);
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
 
-        //----------------------------------------------------------------------------------------//
-        //                                         CARRO RESERVA                                       //
-        //----------------------------------------------------------------------------------------//
+        cy.get('app-assistencias').find('div').find(':nth-child(5)').find(':nth-child(4)').find('fp-card').find('div').find(':nth-child(1)').find('fp-checkbox').shadow().find('div').find('input').check({ force: true }).wait(2000)
+        cy.get('#txtPremioOferta').then(($premio) => {
+            PremioTotal = novoPremioTotal
+            novoPremioTotal = $premio.text().trim()
+            expect(novoPremioTotal).not.to.eq(PremioTotal)
+        })
+        //@ submit
+        cy.get('.desktop-buttons > .ng-star-inserted > #elaborar-proposta').click({ force: true })
+        cy.wait(40000)
 
 
-        // cy.log('Não quero contratar')
-
-        //@NAO QUERO CONTRATAR
-        // cy.get('#assistencia-1')
-        //     .uncheck()
-
-        // @@ nao mexe no premio
 
 
-        //////
-        //     cy.log('Carro reserva porte básico - Essencial 7 dias')
-
-        //     //opcao CarroReserva 1
-        //     cy.get('#checkbox-7').click()
-        //     cy.wait(1000)
-
-        //     //@Referencia
-        //     cy.get('#checkbox-8').click();
-        //     cy.wait(1000)
-
-        //     cy.get('#txtPremioOferta').then(($premio) => {
-        //         PremioTotal = novoPremioTotal;
-        //         novoPremioTotal = $premio.text().trim();
-        //         expect(novoPremioTotal).not.to.eq(PremioTotal);
-        //     })
-
-        //     //@Livre escolha
-        //     cy.get('#checkbox-9').click();
-        //     cy.wait(1000)
-
-        //     cy.get('#txtPremioOferta').then(($premio) => {
-        //         PremioTotal = novoPremioTotal;
-        //         novoPremioTotal = $premio.text().trim();
-        //         expect(novoPremioTotal).not.to.eq(PremioTotal);
-        //     })
 
 
-        // @NovoSegurado
+
+
+
+
+
+
+        //finish it
     })
+    //finish describe
 })

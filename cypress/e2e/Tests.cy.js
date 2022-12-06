@@ -1,13 +1,29 @@
 /// <reference types="cypress" />
 
+import '../support/commands'
+import '../support/variaveis'
+
 describe('Personalizar', () => {
     before(() => {
         // cy.visit('http://192.168.1.131:9090/#/oferta/3000129137/1/2/1')
-        cy.visit('http://192.168.1.131:9090/#/oferta/3000130216/1/0/1')
+        cy.visit('http://192.168.1.131:9090/#/oferta/3000148460/1/1/1')
         cy.wait(10000)
-
     })
     
+
+    it('Test Função Recalcular', () => {
+        cy.log('@ Valor Base -> Padronizando');
+        cy.get('#btn-lbl-btn-slct-casco').click({ force: true })
+        cy.get('#btn-item-btn-slct-casco-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-modalidade-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-modalidade-seguro-0').click({ force: true })
+        cy.get('#btn-lbl-btn-slct-franquia-seguro').click({ force: true })
+        cy.get('#btn-item-btn-slct-franquia-seguro-3').click({ force: true })
+        
+        cy.recalcular_final()
+    });
+
+
     // it.skip('Login', () => {
     //     // cy.get('[name=USER').type('P0650051')
     //     //     .should('have.value', 'P0650051')
@@ -20,7 +36,7 @@ describe('Personalizar', () => {
     // });
 
 
-    it('Vidros', () => {
+    it.skip('Vidros', () => {
         let naoquero = cy.get('#cobertura-vidro')
         naoquero.uncheck();
         // @ Padronizou
