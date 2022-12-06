@@ -1,0 +1,14 @@
+{
+  "name": "cypress-robo",
+  "version": "1.0.0",
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "cypress run"
+  },
+  "keywords": [],
+  "author": "QWA SOLUCOES",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^11.2.0"
+  }
+}

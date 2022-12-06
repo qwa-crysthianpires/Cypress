@@ -7,6 +7,18 @@ describe('Personalizar', () => {
         cy.wait(10000)
 
     })
+    
+    // it.skip('Login', () => {
+    //     // cy.get('[name=USER').type('P0650051')
+    //     //     .should('have.value', 'P0650051')
+
+    //     // cy.get('[type=password')
+    //     //     .type('mhQW@_00')
+    //     //     .should('have.value', 'mhQW@_00')
+
+    //     // cy.get('[type=button').click()
+    // });
+
 
     it('Vidros', () => {
         let naoquero = cy.get('#cobertura-vidro')

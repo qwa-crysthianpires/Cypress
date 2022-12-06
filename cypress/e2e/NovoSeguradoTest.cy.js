@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
-// import loc from '/../support/locators'
+import '../support/commands'
+import '../support/variaveis'
+
 
 /* PRIMEIRA PAGINA DIRETO*/
 //cy.visit('http://192.168.1.131:9090/')// @ Stella
@@ -10,161 +12,65 @@
 
 /* TERCEIRA PAGINA DIRETO*/
 // cy.visit('http://192.168.1.131:9090/#/oferta/2000040349/1/0/1');    // @ Stella
-//  cy.visit('http://192.168.1.131:9090/#/oferta/2000039674/1/2/1');   // @ Crysthian
-// cy.visit('http://192.168.1.131:9090/#/oferta/2000039686/1/0/1');    // @ Felipe
 
 describe("Novo Segurado", () => {
 
-    // it.skip('Login', () => {
-    //     // cy.get('[name=USER').type('P0650051')
-    //     //     .should('have.value', 'P0650051')
-
-    //     // cy.get('[type=password')
-    //     //     .type('mhQW@_00')
-    //     //     .should('have.value', 'mhQW@_00')
-
-    //     // cy.get('[type=button').click()
-    // });
-
     it("Dados do Segurado", () => {
 
-        // @PAGINA 1
         cy.visit('http://192.168.1.131:9090/#/cotacao').wait(10000);
 
-        // @PAGINA 2
-        // cy.visit('http://192.168.1.131:9090/#/oferta/2000040349/1/30/1').wait(10000);
-
-        // @PAGINA3
-
-        //@ VAR
+        //@ Variaveis
         let PremioTotal = 0;
         let novoPremioTotal = 0;
-        const cpfSegurado = '227.827.558-54' //felipe: 470.539.618-93 
-        const nomeSegurado = 'Stella Cristiane Laís Nascimento'
-        const nascSegurado = '24/03/1995'
+
+        // Stella
+        // const cpfSegurado = '227.827.558-54' 
+        // const nomeSegurado = 'Stella Cristiane Laís Nascimento'
+        // const nascSegurado = '24/03/1995'
+
+        // const cpfSegurado = '756.538.098-96'
+        const cpfSegurado = '362.799.448-59'
+        const nomeSegurado = 'Levi Rodrigo da Silva'
+        const nascSegurado = '07/04/1999'
+        const cepSegurado = '16901-852'
 
         //// @ Função de Fechar o MODAL
-        cy.get('.coachmark-modal__content')
-            .should('be.visible').should('contain', 'Um novo sistema de cálculo para você')
-            .then(($dialog) => {
-                cy.wrap($dialog).find('#icon-btnCoachmarkClose').click()
-            });
+        cy.modal_BoasVindas();
 
         //--------------------------------------------------------------------------------------//
         //-------------------------@---SEGURADO-NOVO--------------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        // cy.get('#checkbox-0').click();
-
-        //  @CLASSE BONUS
-        // cy.get('#btn-lbl-select-bonus')
-        //     .invoke('show')
-        //     .select('title=0')
-        //     .click();
-
-        // @    CPF segurado
-        cy.get("#ipt-cpfCnpj-segurado").click()
-            .type(cpfSegurado)
-            .should("have.value", cpfSegurado)
-            .wait(1000);
-
-        // // @    Nome do Segurado
-        // cy.get("#inp-nome-novo-segurado")
-        //     .type(nomeSegurado)
-        //     .should("have.value", nomeSegurado);
-
-        // // @    Data de Nascimento
-        // cy.get("#ipt-picker-inp-dataNascimento-novo-segurado").click()
-        //     .type(nascSegurado)
-        //     .should("have.value",nascSegurado);
-
-        // // @    Sexo
+        cy.get("#ipt-cpfCnpj-segurado").click().type(cpfSegurado).should("have.value", cpfSegurado).wait(1000);
+        // cy.get("#inp-nome-novo-segurado").type(nomeSegurado).should("have.value", nomeSegurado);
+        // cy.get("#ipt-picker-inp-dataNascimento-novo-segurado").click({ force: true }).type(nascSegurado).should("have.value", nascSegurado);
         // cy.get("#btn-lbl-select-sexo-novo-segurado").click({ force: true });
         // cy.get("#btn-item-text-select-sexo-novo-segurado-1").click({ force: true });
-
-
-
-
-
-
-
+		
         //--------------------------------------------------------------------------------------//
-        //-------------------------@---CARRO-NOVO-----------------------------------------------//
+        //-----------------------------CARRO-NOVO-----------------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        //@ Placa
-        cy.get('#ipt-inp--placa')
-            .type('GDN-2736')
-            .should("have.value", "GDN-2736")
-            .wait(3000);
+        cy.get('.input__toggle__btn').shadow().find('div').find('input').first().check({ force: true })
+        cy.get("#btn-lbl-select-ano-fabricacao").click().wait(1000);
+        cy.get("#btn-item-select-ano-fabricacao-1").click({ force: true })
+        cy.wait(1000).get("#btn-lbl-select-ano-modelo2").click({ force: true }).wait(1000);
+        cy.get("#btn-item-select-ano-modelo2-1").click({ force: true }).wait(1000);
+        cy.get("#ipt-inp-modeloVeiculo").click({ force: true }).type("Gol")
+        cy.get('#autocomplete-item-5206').click({ force: true }).wait(1000);
+        cy.get('#chkb-veiculoZeroQuilometro').click();
+        cy.get("#btn-lbl-btn-slct-tipo-uso").click({ force: true });
+        cy.get("#btn-item-btn-slct-tipo-uso-0").click({ force: true });
+        cy.get("#ipt-ipt-cep-component-endereco").click({ force: true }).type(cepSegurado).should("have.value", cepSegurado).wait(1000);
+        cy.get("#tag-ipt-cep-component-endereco-0").click().wait(1000);
 
-        // @ Ano de Fabricação
-        cy.get("#btn-lbl-select-ano-fabricacao")
-            .click()
-            .wait(1000);
-        cy.get("#btn-item-select-ano-fabricacao-3")
-            .click({ force: true }) // 2019 -3
-            .wait(1000);
-
-        // @ Ano do Modelo
-        cy.wait(1000).get("#btn-lbl-select-ano-modelo2")
-            .click({ force: true })
-            .wait(1000);
-        cy.get("#btn-item-select-ano-modelo2-1")
-            .click({ force: true })
-            .wait(1000);
-
-
-        // @ Modelo do Veículo
-        cy.get("#ipt-inp-modeloVeiculo")
-            .click({ force: true })
-            .type("Civic")
-            .wait(1000);
-
-        cy.get("#autocomplete-item-5129")
-            .click({ force: true })
-            .wait(1000);
-
-        // @ Uso do Veículo
-        cy.get("#btn-lbl-btn-slct-tipo-uso")
-            .click({ force: true });
-        cy.get("#btn-item-btn-slct-tipo-uso-0")
-            .click({ force: true });
-
-        // @    CEP
-        cy.get("#ipt-ipt-cep-component-endereco")
-            .click({ force: true })
-            .type("16901852")
-            .should("have.value", "16901-852")
-            .wait(1000);
-
-        cy.get("#tag-ipt-cep-component-endereco-0")
-            .click()
-            .wait(1000);
-
-        // @    Submit 
-        cy.get("#bt-buscar-ofertas-novo")
-            .click().wait(30000);
-
-        // cy.get('#id_concorrentes_cotacao_title')
-        // cy.get('#btn-concorrentes-cotacao-ok')
-
-        // cy.get('#modal-title-rastreamento')
-        // cy.get('#btn-enviar-confirmacao')
-
-        // cy.get('#btn-enviar-confirmacao')
-        // cy.get('#bt-personalizar-oferta-1')
-
-        // //  @ label do valor
-        // cy.get('#label-premio-riscado-1')
-
-
+        cy.get("#bt-buscar-ofertas-novo").click({ force: true })
 
         //--------------------------------------------------------------------------------------//
+        //------------------------------------RESULTADO-----------------------------------------//
         //--------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------//
-        // @2ªPAGINA
 
+        cy.pause()
         cy.wait(5000);
         cy.get('.modal-content')
             .should('be.visible').should('contain', 'Cotações concorrentes')
@@ -1037,13 +943,13 @@ describe("Novo Segurado", () => {
         //76 - Vidros, retrovisores, lanternas e faróis
         // @ Referenciada
         cy.get('.questao corpo__item')
-        .find('div')
-        .find('div').last()
-        .find('div').first()
-        .find('div')
-        .find('fp-radiobutton')
-        .find('input').should('exist')
-        .check();
+            .find('div')
+            .find('div').last()
+            .find('div').first()
+            .find('div')
+            .find('fp-radiobutton')
+            .find('input').should('exist')
+            .check();
         // cy.get('#txtPremioOferta').then(($premio) => {
         //     PremioTotal = novoPremioTotal;
         //     novoPremioTotal = $premio.text().trim();
