@@ -161,8 +161,32 @@ Cypress.Commands.add('url_env', () => {
 })
 
 Cypress.Commands.add('recalcular_final', () => {
-    cy.intercept('POST',`http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5');
+    cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5');
     cy.btn_recalcular();
-    cy.wait('@RecalculandoValorBase5').then((xhr) => { console.log(xhr)
-        expect(xhr.response.statusCode).be.eq(200);});
+    cy.wait('@RecalculandoValorBase5').then((xhr) => {
+        console.log(xhr)
+        expect(xhr.response.statusCode).be.eq(200);
+    });
+})
+
+
+
+Cypress.Commands.add('modal_perdaDesconto', () => {
+    cy.get('.modal-content')
+        .should('be.visible').should('contain', 'Perda do desconto do Cartão Porto')
+        .then(($dialog) => {
+            cy.wrap($dialog)
+                .find('#buttonSairSalvar')
+                .click()
+        });
+})
+
+Cypress.Commands.add('modal_termoResposabilidade', () => {
+    cy.get('.modal-content')
+        .should('be.visible').should('contain', 'Termo de responsabilidade')
+        .then(($dialog) => {
+            cy.wrap($dialog)
+                .find('#buttonAceitarTermoAceiteProposta')
+                .click()
+        });
 })

@@ -9,8 +9,8 @@ describe("Novo Segurado", () => {
 
         cy.visit('http://192.168.1.131:9090/#/cotacao').wait(10000)
         // cy.visit('http://192.168.1.131:9090/#/oferta/3000148483/1/1/1').wait(10000)
+        // cy.visit('http://192.168.1.131:9090/#/proposta2/3000140385/0/1?semParar=false').wait(5000);
 
-        //@ Variaveis
         let PremioTotal = 0
         let novoPremioTotal = 0
 
@@ -47,7 +47,7 @@ describe("Novo Segurado", () => {
         //-------------------------@---SEGURADO-NOVO--------------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        cy.get("#ipt-cpfCnpj-segurado").click().type(cpfSegurado).should("have.value", cpfSegurado).wait(1000)
+        cy.get("#ipt-cpfCnpj-segurado").click({ force: true }).type(cpfSegurado).should("have.value", cpfSegurado).wait(1000)
         // cy.get("#inp-nome-novo-segurado").type(nomeSegurado).should("have.value", nomeSegurado)
         // cy.get("#ipt-picker-inp-dataNascimento-novo-segurado").click({ force: true }).type(nascSegurado).should("have.value", nascSegurado)
         // cy.get("#btn-lbl-select-sexo-novo-segurado").click({ force: true })
@@ -68,7 +68,7 @@ describe("Novo Segurado", () => {
         cy.get("#btn-lbl-btn-slct-tipo-uso").click({ force: true })
         cy.get("#btn-item-btn-slct-tipo-uso-0").click({ force: true })
         cy.get("#ipt-ipt-cep-component-endereco").click({ force: true }).type(cepSegurado).should("have.value", cepSegurado).wait(1000)
-        cy.get("#tag-ipt-cep-component-endereco-0").click().wait(1000)
+        cy.get("#tag-ipt-cep-component-endereco-0").click({ force: true }).wait(1000)
 
         cy.get("#bt-buscar-ofertas-novo").click({ force: true })
 
@@ -76,7 +76,7 @@ describe("Novo Segurado", () => {
         //------------------------------------RESULTADO-----------------------------------------//
         //--------------------------------------------------------------------------------------//
 
-        cy.wait(60000)
+        cy.wait(41000)
         cy.modal_CotacoesConcorrentes()
 
         cy.log('Padronizando')
@@ -213,13 +213,17 @@ describe("Novo Segurado", () => {
         cy.intercept('POST', 'http://192.168.1.131:9090/api/automovel/cotacao/v1/lmi/depreciacao/').as('alterandoValorBase5')
         cy.log('@ Valor Base -> 5% ')
         cy.get('#input-valor-base-variacao-opcionais').clear({ force: true }).type(5.00)
-        cy.wait('@alterandoValorBase5').then((xhr) => {console.log(xhr)
-            expect(xhr.response.statusCode).be.eq(200)})
+        cy.wait('@alterandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
         cy.wait(10000)
         cy.intercept('POST', `http://192.168.1.131:9090/api/automovel/cotacaobff/v1/cotacoes/**/orcamentos`).as('RecalculandoValorBase5')
         cy.btn_recalcular()
-        cy.wait('@RecalculandoValorBase5').then((xhr) => {console.log(xhr)
-            expect(xhr.response.statusCode).be.eq(200)})
+        cy.wait('@RecalculandoValorBase5').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.response.statusCode).be.eq(200)
+        })
         cy.wait(10000)
         cy.get('#txtPremioOferta')
             .then(($premio) => {
@@ -648,7 +652,7 @@ describe("Novo Segurado", () => {
 
         })
 
-        
+
         //--------------------------------------------------------------------------------------//
         //---------------------------------CARRO RESERVA----------------------------------------//
         //--------------------------------------------------------------------------------------//
@@ -670,9 +674,10 @@ describe("Novo Segurado", () => {
                 novoPremioTotal = $premio.text().trim()
                 expect(novoPremioTotal).not.to.eq(PremioTotal)
             })
-
+        
         cy.log('COMPLETO OPCAO')
         cy.get('app-assistencias').find('div').find(':nth-child(2)').find(':nth-child(3)').find('fp-card').find('div').find(':nth-child(1)').find('fp-radiobutton').find('div').find('input').first().check({ force: true }).wait(2000)
+        cy.wait(3000)
         cy.get('#txtPremioOferta')
             .then(($premio) => {
                 PremioTotal = novoPremioTotal
@@ -860,11 +865,139 @@ describe("Novo Segurado", () => {
             novoPremioTotal = $premio.text().trim()
             expect(novoPremioTotal).not.to.eq(PremioTotal)
         })
+        cy.pause()
         //@ submit
         cy.get('.desktop-buttons > .ng-star-inserted > #elaborar-proposta').click({ force: true })
         cy.wait(40000)
 
+        //--------------------------------------------------------------------------------------//
+        //---------------------------DEMAIS-ASSISTENCIAs----------------------------------------//
+        //--------------------------------------------------------------------------------------//
 
+        let ProfissaoSegurado = 'Analista'
+        let documentoSegurado = '35253753X'
+        let dataDocumentoSegurado = '06/10/2018'
+
+        cy.get('#documentoProposta').click({ force: true }).type(documentoSegurado)
+        cy.get('#ipt-picker-dataExpedicaoDocumento').click({ force: true }).type(dataDocumentoSegurado)
+        cy.get('#ipt-autocompletePaisResidencia').click({ force: true }).type('Brasil')
+        
+        cy.get('#ipt-autocompleteProfissaoProposta').click({ force: true }).type(ProfissaoSegurado).wait(1000)
+        cy.get('#autocomplete-item-323').click({ force: true })
+        cy.get('#btn-lbl-dropdownFaixaRendaMensal > .inp-dropdown__button__text').click({ force: true })
+        cy.get('#btn-item-dropdownFaixaRendaMensal-2').click({ force: true })
+        cy.get('#btn-lbl-pep-dropdown > .inp-dropdown__button__text').click({ force: true })
+        cy.get('#btn-item-pep-dropdown-1').click({ force: true })
+
+        let placa = '123456'
+        let chassi = '1TB3UJUAGAP6Y9848'
+        let numeroVistoriaPrevia = '333'
+        let numeroCoberturaProvisoria = '2222'
+        let dataCoberturaProvisoria = '25/11/2002'
+        let renavam = '10211060167'
+        let notaFIscal = '1'
+        let dataEmissaoNotaFiscal = '25/11/2002'
+        let dataSaidaVeiculo = '29/11/2002'
+        let nomeBeneficiario = 'Maricleide'
+
+        cy.get('#num-placa').click({ force: true }).type(placa)
+        cy.get('#chassi').click({ force: true }).type(chassi)
+        cy.get('#vistoriaPrevia').click({ force: true }).type(numeroVistoriaPrevia)
+        cy.get('#numCoberturaProvisoria').click({ force: true }).type(numeroCoberturaProvisoria)
+        cy.get('#ipt-picker-dataCoberturaProvisoria').click({ force: true }).type(dataCoberturaProvisoria)
+        cy.get('#renavam').click({ force: true }).type(renavam)
+        cy.get('#nota-fiscal').click({ force: true }).type(notaFIscal)
+        cy.get('#ipt-picker-data-emissao-nf').click({ force: true }).type(dataEmissaoNotaFiscal)
+        cy.get('#ipt-picker-data-saida-veiculo').click({ force: true }).type(dataSaidaVeiculo)
+        cy.get('#clausulaBeneficiaria').shadow().find('div').find('input').check({ force: true })
+        cy.get('#nome-beneficiario').click({ force: true }).type(nomeBeneficiario)
+
+        let cep = '16901-852'
+        let estado = 'São Paulo'
+        let bairro = 'Loteamento Residencial Alto dos Ipês'
+        let cidade_localidade = 'Andradina'
+        let tipoLogradouro = 'Rua'
+        let logradouro = 'Nicolau Abud Neto'
+        let numeroEndereco = '233'
+        let complemento = 'Ap 412'
+        let tipoTelefone = 'Celular'
+        let numeroTelefone = '1140028922'
+        let email = 'abc@abc.com'
+
+        cy.get('#ipt-ipt-cep-component-endereco').should('have.value', cep)
+
+        cy.get('app-estado-localidade').find('.components-list').find(':nth-child(1)').find('fp-dropdown ').find('div').find('div').find('button').first()
+            .then(val => {
+                let inputValue = val.text().trim();
+                expect(inputValue).be.equal(estado)
+            });
+
+        cy.get('#ipt-input-localidade').should('have.value', cidade_localidade)
+        cy.get('#dropdown-tipoLogradouro').find('div').find('div').find('button').first().then(val => {
+            let inputValue = val.text().trim();
+            expect(inputValue).be.equal(tipoLogradouro)
+        });
+
+
+        cy.get('#ipt-input-logradouro').should('have.value', logradouro)
+        cy.get('#input-tag-numero').click({ force: true }).type(numeroEndereco)
+        cy.get('#input-complemento').click({ force: true }).type(complemento)
+        cy.get('#btn-lbl-tipoNumero0').click({ force: true })
+        cy.get('#btn-item-tipoNumero0-0').click({ force: true })
+        cy.get('#input-0').click({ force: true }).type(numeroTelefone)
+        cy.get('#ipt-email').click({ force: true }).type(email)
+        cy.get('#enderecoEnviooption-1').check({ force: true })
+        cy.get('#enderecoEnviooption-2').check({ force: true }).wait(2000)
+
+        // outro
+        cy.get('#enderecoEnvio').find(':nth-child(1)').find(':nth-child(1)').find('app-cep').find('.row').find('.col').find('#ipt-cep-component-endereco').find('#inputtag-ipt-cep-component-endereco').find('fp-input').find('.input').find('#ipt-ipt-cep-component-endereco').click({ force: true }).type(cep)
+        cy.get('#enderecoEnvio').find(':nth-child(1)').find('.no-margin').find('app-estado-localidade').find('.components-list').find(':nth-child(1)').find('fp-dropdown').find('div').find('div').find('button').first()
+            .then(val => {
+                let inputValue = val.text().trim();
+                expect(inputValue).be.equal(estado)
+            });
+
+
+        cy.get('#enderecoEnvio').find(':nth-child(1)').find('.no-margin').find('app-estado-localidade').find('.components-list').find(':nth-child(2)').find('fp-autocomplete').find('#autocomplete-input-localidade').find('.autocomplete__input').find('.input').find('#ipt-input-localidade').should('have.value', cidade_localidade)
+        cy.get('#input-bairro').should('have.value', bairro)
+        cy.get('#btn-lbl-dropdown-tipoLogradouro')
+            .last()
+            .then(val => {
+                let inputValue = val.text().trim();
+                expect(inputValue).be.equal(tipoLogradouro)
+            });
+
+        cy.get(':nth-child(5) > fp-autocomplete > #autocomplete-input-logradouro > .autocomplete__input > .input > #ipt-input-logradouro').should('have.value', logradouro)
+        cy.get(':nth-child(6) > fp-input > .input > #input-tag-numero').click({ force: true }).type(numeroEndereco)
+        cy.get(':nth-child(7) > fp-input > .input > #input-complemento').click({ force: true }).type(complemento)
+
+        let cartaoCredito = '4916 4151 6485 8487'
+        let cartaoValidade = '23/05/2024'
+        let cartaoCodigoSegurança = '323'
+
+        cy.get('#btn-lbl-formaDePagamento').find('.inp-dropdown__button__text').click({ force: true })
+        cy.get('#btn-item-formaDePagamento-1').click({ force: true })
+        cy.get('#btn-lbl-valorDoSeguro').click({ force: true })
+        cy.get('#btn-item-valorDoSeguro-0').click({ force: true })
+
+        cy.modal_perdaDesconto()
+
+        cy.get('#numeroCartao').click({ force: true }).type(cartaoCredito)
+        cy.get('#validadeCartao').click({ force: true }).type(cartaoValidade)
+        cy.get('#termoAceite')
+            .then(($btn) => {
+                cy.wrap($btn)
+                    .shadow()
+                    .find('div')
+                    .find('input')
+                    .should('exist')
+                    .check({ force: true })
+                    .wait(1000);
+            })
+
+        cy.modal_termoResposabilidade()
+
+        cy.get('#btnEmitirProposta').should('be.visible')
 
 
 
